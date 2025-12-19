@@ -1,40 +1,213 @@
 
 
-// Класс для управления навигацией
-class Navigation {
-    constructor() {
-        this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        this.nav = document.querySelector('.nav');
-        this.openFeedbackBtn = document.getElementById('openFeedbackBtn');
-        this.modalCloseBtn = document.getElementById('modalCloseBtn');
-        this.modal = document.getElementById('modalBackdrop');
-        this.dropdown = document.querySelector('.nav-item.dropdown');
-        
-        this.init();
-    }
-    
-    init() {
-        this.initMobileMenu();
-        this.initModal();
-        this.initDropdownMenu();
-        this.initSmoothScroll();
-        this.initOutsideClickHandlers();
-    }
-    
-    // Мобильное меню
-    initMobileMenu() {
-        if (this.mobileMenuBtn && this.nav) {
-            this.mobileMenuBtn.addEventListener('click', () => {
-                this.toggleMobileMenu();
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const nav = document.querySelector('.nav');
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    const contactBtn = document.getElementById('openFeedbackBtn');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    // Открытие/закрытие мобильного меню
+    if (mobileMenuBtn && nav) {
+        mobileMenuBtn.addEventListener('click', function() {
+            const isOpen = nav.classList.contains('active');
+            
+            // Закрываем все открытые выпадающие меню
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('active');
             });
             
-            // Закрытие меню при клике на ссылку
-            const navLinks = document.querySelectorAll('.nav-link, .dropdown-link');
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    this.closeMobileMenu();
-                });
+            // Закрываем все активные кнопки выпадающих меню
+            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                toggle.classList.remove('active');
             });
+            
+            if (!isOpen) {
+                // Открываем меню
+                nav.classList.add('active');
+                mobileMenuBtn.classList.add('active');
+                document.body.classList.add('menu-open');
+            } else {
+                // Закрываем меню
+                nav.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        });
+    }
+
+    // Обработка выпадающих меню на мобильных
+    if (dropdownToggles) {
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const dropdownMenu = this.nextElementSibling;
+                    const isActive = dropdownMenu.classList.contains('active');
+                    
+                    // Закрываем все другие выпадающие меню
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        if (menu !== dropdownMenu) {
+                            menu.classList.remove('active');
+                        }
+                    });
+                    
+                    // Убираем активный класс у других кнопок
+                    document.querySelectorAll('.dropdown-toggle').forEach(otherToggle => {
+                        if (otherToggle !== this) {
+                            otherToggle.classList.remove('active');
+                        }
+                    });
+                    
+                    // Переключаем текущее меню
+                    if (isActive) {
+                        dropdownMenu.classList.remove('active');
+                        this.classList.remove('active');
+                    } else {
+                        dropdownMenu.classList.add('active');
+                        this.classList.add('active');
+                    }
+                }
+            });
+        });
+    }
+
+    // Закрытие меню при клике на ссылку (для мобильных)
+    if (nav) {
+        const navLinks = nav.querySelectorAll('.nav-link:not(.dropdown-toggle), .dropdown-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    // Закрываем меню
+                    nav.classList.remove('active');
+                    mobileMenuBtn.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                    
+                    // Закрываем все выпадающие меню
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('active');
+                    });
+                    
+                    // Убираем активный класс у всех кнопок выпадающих меню
+                    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                        toggle.classList.remove('active');
+                    });
+                }
+            });
+        });
+    }
+
+    // Обработка кнопки "Связь с нами"
+    if (contactBtn && modalBackdrop) {
+        contactBtn.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                // На мобильных закрываем меню перед открытием модального окна
+                if (nav && nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    mobileMenuBtn.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+            }
+            modalBackdrop.style.display = 'flex';
+            setTimeout(() => {
+                modalBackdrop.classList.add('active');
+            }, 10);
+        });
+    }
+
+    // Закрытие модального окна
+    if (modalCloseBtn && modalBackdrop) {
+        modalCloseBtn.addEventListener('click', function() {
+            modalBackdrop.classList.remove('active');
+            setTimeout(() => {
+                modalBackdrop.style.display = 'none';
+            }, 300);
+        });
+    }
+
+    // Закрытие модального окна при клике на затемнение
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                setTimeout(() => {
+                    this.style.display = 'none';
+                }, 300);
+            }
+        });
+    }
+
+    // Закрытие меню при клике вне его области (для мобильных)
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && nav && nav.classList.contains('active')) {
+            const isClickInsideNav = nav.contains(e.target);
+            const isClickOnMenuBtn = mobileMenuBtn.contains(e.target);
+            
+            if (!isClickInsideNav && !isClickOnMenuBtn) {
+                nav.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                
+                // Закрываем все выпадающие меню
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('active');
+                });
+                
+                // Убираем активный класс у всех кнопок выпадающих меню
+                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                    toggle.classList.remove('active');
+                });
+            }
+        }
+    });
+
+    // Закрытие выпадающего меню при клике вне его (для десктопа)
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth > 768) {
+            const dropdowns = document.querySelectorAll('.nav-item.dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(e.target)) {
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    if (menu) {
+                        menu.style.opacity = '0';
+                        menu.style.visibility = 'hidden';
+                        menu.style.transform = 'translateY(-10px)';
+                    }
+                }
+            });
+        }
+    });
+
+    // Закрытие меню при изменении размера окна
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            // На десктопе убираем мобильные классы
+            if (nav) {
+                nav.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+            
+            // Закрываем все выпадающие меню
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('active');
+                // Возвращаем стили для десктопа
+                menu.style.opacity = '';
+                menu.style.visibility = '';
+                menu.style.transform = '';
+                menu.style.maxHeight = '';
+            });
+            
+            // Убираем активный класс у всех кнопок выпадающих меню
+            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                toggle.classList.remove('active');
+            });
+        }
+    });
+});            });
         }
     }
     
@@ -220,4 +393,5 @@ class Navigation {
 // Инициализация навигации при загрузке DOM
 document.addEventListener('DOMContentLoaded', () => {
     window.navigation = new Navigation();
+
 });

@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="feedbackModal.css">
+    <link rel="stylesheet" href="footerForm.css">
+    <link rel="stylesheet" href="weight-calculator.css">
+    <link rel="stylesheet" href="solar-model.css">
 </head>
 <body>
-    <!-- Шапка сайта -->
+    
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -23,11 +26,11 @@
                 <nav class="nav">
                     <ul class="nav-list">
                         <li><a href="#" class="nav-link active">Главная</a></li>
-                        <li><a href="#planets" class="nav-link">Планеты</a></li>
-                        <li><a href="#missions" class="nav-link">Миссии</a></li>
+                       <li><a href="planets.html" class="nav-link">Планеты</a></li>
+                        <li><a href="missions.html" class="nav-link">Миссии</a></li>
                         <li><a href="#gallery" class="nav-link">Галерея</a></li>
                         
-                        <!-- Выпадающее меню -->
+                        
                         <li class="nav-item dropdown">
                             <button class="nav-link dropdown-toggle">
                                 Разное
@@ -35,25 +38,14 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#" class="dropdown-link">
+                                    <a href="#calculator" class="dropdown-link">
                                         <span class="dropdown-icon">⚖️</span>
                                         Калькулятор веса на планетах
                                     </a>
                                 </li>
+                            
                                 <li>
-                                    <a href="#" class="dropdown-link">
-                                        <span class="dropdown-icon">🧠</span>
-                                        Космическая викторина
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-link">
-                                        <span class="dropdown-icon">🌍</span>
-                                        Космический адрес
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-link">
+                                    <a href="#solar-model" class="dropdown-link">
                                         <span class="dropdown-icon">🌐</span>
                                         3D Модель Солнечной системы
                                     </a>
@@ -69,7 +61,7 @@
                     </ul>
                 </nav>
                 
-                <!-- Кнопка мобильного меню -->
+                
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Открыть меню">
                     <span></span>
                     <span></span>
@@ -79,7 +71,7 @@
         </div>
     </header>
 
-    <!-- Модальное окно обратной связи -->
+    
 <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal-content">
         <div class="modal-header">
@@ -149,7 +141,7 @@
                     <div class="error-message" id="agreeError"></div>
                 </div>
 
-                <!-- Сообщения об успехе/ошибке -->
+                
                 <div id="formMessage" class="message" style="display: none;"></div>
 
                 <div class="form-buttons">
@@ -170,7 +162,7 @@
                     </button>
                 </div>
 
-                <!-- Скрытые поля для Formcarry -->
+                
                 <input type="hidden" name="_gotcha" style="display:none !important">
                 <input type="hidden" name="_subject" value="Новое сообщение с сайта Космический исследователь">
                 <input type="hidden" name="_language" value="ru">
@@ -179,9 +171,9 @@
     </div>
 </div>
 
-    <!-- Основной контент -->
+    
     <div class="home-page">
-        <!-- Видео фон -->
+        
         <div class="video-background">
             <video 
                 autoplay 
@@ -196,7 +188,7 @@
             <div class="video-overlay"></div>
         </div>
         
-        <!-- Hero секция -->
+        
         <div class="hero-content">
             <div class="container">
                 <h1 class="hero-title">
@@ -213,7 +205,7 @@
             </div>
         </div>
 
-        <!-- Секция возможностей -->
+        
         <section class="features-section">
             <div class="container">
                 <h2>Что вас ждет?</h2>
@@ -237,7 +229,7 @@
             </div>
         </section>
 
-        <!-- Секция таймлайна -->
+        
         <section class="timeline-section" id="timelineSection">
             <div class="container">
                 <div class="timeline-header">
@@ -249,7 +241,7 @@
                 
                 <div class="timeline-container">
                     <div class="timeline-line"></div>
-                    <!-- Таймлайн события будут добавлены через JavaScript -->
+                    
                 </div>
                 
                 <div class="timeline-note">
@@ -258,7 +250,7 @@
             </div>
         </section>
 
-        <!-- Секция статистики -->
+        
         <section class="statistics-section" id="statisticsSection">
             <div class="container">
                 <div class="statistics-header">
@@ -325,8 +317,8 @@
             </div>
         </section>
 
-        <!-- Секция галереи -->
-        <section class="auto-gallery-section">
+        
+        <section class="auto-gallery-section" id="gallery">
             <div class="container">
                 <div class="gallery-header">
                     <h2>Космос в объективе</h2>
@@ -337,7 +329,7 @@
                 
                 <div class="gallery-container">
                     <div class="gallery-track" id="galleryTrack">
-                        <!-- Изображения галереи будут добавлены через JavaScript -->
+                        
                     </div>
                 </div>
 
@@ -346,47 +338,261 @@
                         <span class="control-icon">🌍</span>
                         <span>Впечатляющие изображения</span>
                     </div>
-                    <button class="view-gallery-btn" id="viewGalleryBtn">
+                    <button class="view-gallery-btn" id="viewGalleryBtn" onclick="window.location.href='gallery.html'">
                         <span class="btn-icon">📷</span>
                         Смотреть всю галерею
                     </button>
-                </div>
             </div>
         </section>
-    </div>
 
-    <!-- Футер -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Космический исследователь</h3>
-                    <p>Исследуйте тайны Вселенной вместе с нами</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Разделы</h4>
-                    <ul>
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#planets">Планеты</a></li>
-                        <li><a href="#missions">Космические миссии</a></li>
-                        <li><a href="#gallery">Галерея</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Контакты</h4>
-                    <p>email: info@cosmic-explorer.ru</p>
-                    <p>телефон: +7 (999) 123-45-67</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Космический исследователь. Все права защищены.</p>
+
+
+
+
+
+
+
+        
+<section class="solar-model-section" id="solar-model">
+    <div class="container">
+        <div class="model-header">
+            <h2 class="model-title">
+                <span class="title-icon">🪐</span>
+                Интерактивная модель Солнечной системы
+            </h2>
+            <p class="model-subtitle">
+                Исследуйте планеты, их орбиты и ночное небо в реальном времени с помощью 
+                модели <strong>Solar System Scope</strong>. Меняйте масштаб, включайте движение планет и изучайте космические объекты.
+            </p>
+            <div class="model-requirements">
+                <p>⚠️ <strong>Для работы модели требуется:</strong> браузер на компьютере (Chrome, Firefox, Edge) с поддержкой <strong>WebGL</strong>. На мобильных устройствах модель может не работать.</p>
             </div>
         </div>
-    </footer>
 
-    <!-- Подключаем JavaScript файлы -->
+        <div class="model-container">
+            
+            <iframe
+                src="https://www.solarsystemscope.com/iframe"
+                title="Интерактивная 3D модель Солнечной системы"
+                class="solar-iframe"
+                width="100%"
+                height="700"
+                frameborder="0"
+                scrolling="no"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer"
+            ></iframe>
+        </div>
+
+        <div class="model-instructions">
+            <h3>💡 Как пользоваться?</h3>
+            <ul>
+                <li><strong>Панель управления справа:</strong> выбор языка, масштаба, включение/выключение звука.</li>
+                <li><strong>Панель слева:</strong> выбор точки обзора (например, с Земли или Солнца) и настройки отображения орбит.</li>
+                <li><strong>Панель внизу:</strong> управление временем — запуск движения планет с разной скоростью.</li>
+                <li>Используйте <strong>колесико мыши</strong> для приближения и <strong>перетаскивание</strong> для вращения обзора.</li>
+            </ul>
+            <p class="model-note">Особенность: модель отображает положение планет на основе актуальных данных NASA.</p>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="weight-calculator-section" id="calculator">
+    <div class="container">
+        <div class="calculator-content">
+            <div class="calculator-header">
+                <h2 class="page-title">Калькулятор веса на планетах</h2>
+                <p class="page-subtitle">
+                    Узнайте, сколько бы вы весили на других планетах Солнечной системы
+                </p>
+            </div>
+
+            
+            <div class="input-panel">
+                <div class="weight-input-group">
+                    <label for="earth-weight" class="input-label">
+                        Ваш вес на Земле:
+                    </label>
+                    <div class="input-with-unit">
+                        <input
+                            type="number"
+                            id="earth-weight"
+                            class="weight-input"
+                            placeholder="Введите ваш вес"
+                            min="0"
+                            step="0.1"
+                        />
+                        <select class="unit-select" id="unit-select">
+                            <option value="kg">кг</option>
+                            <option value="lb">фунт</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="current-weight" id="current-weight-display">
+                    <span>Ваш вес: </span>
+                    <strong id="current-weight-value">0 кг</strong>
+                </div>
+            </div>
+
+            
+            <div class="results-section" id="results-section" style="display: none;">
+                <h3 class="results-title">Ваш вес на других небесных телах:</h3>
+                
+                <div class="planets-grid" id="planets-grid">
+                    
+                </div>
+            </div>
+
+            
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">⚖️</div>
+                <h3>Введите ваш вес</h3>
+                <p>Узнайте, как гравитация других планет повлияет на ваш вес</p>
+                <div class="fun-facts">
+                    <div class="fun-fact">
+                        <span>🪐</span>
+                        На Юпитере ваш вес в 2.3 раза больше!
+                    </div>
+                    <div class="fun-fact">
+                        <span>🌙</span>
+                        На Луне ваш вес уменьшится в 6 раз!
+                    </div>
+                    <div class="fun-fact">
+                        <span>🪐</span>
+                        На Плутоне вы почти невесомы!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </div>
+
+   
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Космический исследователь</h3>
+                <p>Исследуйте тайны Вселенной вместе с нами</p>
+            </div>
+            <div class="footer-section">
+                <h4>Разделы</h4>
+                <ul>
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="planets.html">Планеты</a></li>
+                    <li><a href="missions.html">Космические миссии</a></li>
+                    <li><a href="#gallery">Галерея</a></li>
+                </ul>
+            </div>
+            <div class="footer-section footer-form-section">
+                <h4>Свяжитесь с нами</h4>
+                <form id="footerContactForm" class="footer-contact-form">
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="footerFullName"
+                            name="fullName"
+                            required
+                            placeholder="ФИО *"
+                        >
+                        <div class="error-message" id="footerFullNameError"></div>
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="tel"
+                            class="form-control"
+                            id="footerPhone"
+                            name="phone"
+                            required
+                            placeholder="Телефон *"
+                        >
+                        <div class="error-message" id="footerPhoneError"></div>
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="footerEmail"
+                            name="email"
+                            required
+                            placeholder="Email *"
+                        >
+                        <div class="error-message" id="footerEmailError"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea
+                            class="form-control"
+                            id="footerMessage"
+                            name="message"
+                            rows="3"
+                            required
+                            placeholder="Сообщение *"
+                        ></textarea>
+                        <div class="error-message" id="footerMessageError"></div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input
+                            type="checkbox"
+                            class="form-checkbox"
+                            id="footerAgree"
+                            name="agree"
+                            required
+                        >
+                        <label for="footerAgree" class="checkbox-label">
+                            <span class="checkbox-text">Согласен с политикой обработки персональных данных *</span>
+                        </label>
+                        <div class="error-message" id="footerAgreeError"></div>
+                    </div>
+                    <div id="footerFormMessage" class="message" style="display: none;"></div>
+                    <button 
+                        type="submit" 
+                        class="submit-btn"
+                        id="footerSubmitBtn"
+                    >
+                        <span id="footerSubmitText">Отправить</span>
+                        <span id="footerLoadingSpinner" class="loading-spinner" style="display: none;"></span>
+                    </button>
+                   
+                    <input type="hidden" name="_gotcha" style="display:none !important">
+                    <input type="hidden" name="_subject" value="Сообщение из футера Космический исследователь">
+                    <input type="hidden" name="_language" value="ru">
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Космический исследователь. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
+    
     <script src="script.js"></script>
     <script src="navigation.js"></script>
     <script src="feedbackForm.js"></script>
+    <script src="footerForm.js"></script>
+    <script src="weight-calculator.js"></script>
+   <script src="solar-model.js"></script>
 </body>
 </html>

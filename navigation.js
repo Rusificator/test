@@ -1,40 +1,170 @@
-
+// navigation.js - новая упрощенная версия
 
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const nav = document.querySelector('.nav');
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    const navLinks = document.querySelectorAll('.nav-link, .dropdown-link');
+    
+    // Переменная для отслеживания состояния меню
+    let isMenuOpen = false;
+    
+    // Функция открытия/закрытия меню
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        
+        if (isMenuOpen) {
+            // Открываем меню
+            nav.classList.add('active');
+            mobileMenuBtn.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Блокируем скролл страницы
+        } else {
+            // Закрываем меню
+            nav.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            document.body.style.overflow = ''; // Возвращаем скролл
+            
+            // Закрываем все выпадающие меню
+            dropdownToggles.forEach(toggle => {
+                const dropdown = toggle.closest('.nav-item.dropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        }
+    }
+    
+    // Функция переключения выпадающего меню
+    function toggleDropdown(dropdownToggle) {
+        const dropdown = dropdownToggle.closest('.nav-item.dropdown');
+        const isActive = dropdown.classList.contains('active');
+        
+        // Закрываем все другие выпадающие меню
+        dropdownToggles.forEach(otherToggle => {
+            if (otherToggle !== dropdownToggle) {
+                const otherDropdown = otherToggle.closest('.nav-item.dropdown');
+                if (otherDropdown) {
+                    otherDropdown.classList.remove('active');
+                }
+            }
+        });
+        
+        // Переключаем текущее выпадающее меню
+        if (isActive) {
+            dropdown.classList.remove('active');
+        } else {
+            dropdown.classList.add('active');
+        }
+    }
+    
+    // Функция закрытия меню
+    function closeMenu() {
+        if (isMenuOpen) {
+            toggleMenu();
+        }
+    }
+    
+    // Обработчик для кнопки меню
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleMenu();
+        });
+    }
+    
+    // Обработчики для выпадающих меню на мобильных
+    if (dropdownToggles) {
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleDropdown(this);
+                }
+            });
+        });
+    }
+    
+    // Закрытие меню при клике на ссылку
+    if (navLinks) {
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768 && isMenuOpen) {
+                    // Небольшая задержка для плавного закрытия
+                    setTimeout(() => {
+                        closeMenu();
+                    }, 100);
+                }
+            });
+        });
+    }
+    
+    // Закрытие меню при клике вне его области
+    document.addEventListener('click', function(e) {
+        const isClickInsideNav = nav.contains(e.target);
+        const isClickOnMenuBtn = mobileMenuBtn && mobileMenuBtn.contains(e.target);
+        
+        if (isMenuOpen && !isClickInsideNav && !isClickOnMenuBtn) {
+            closeMenu();
+        }
+    });
+    
+    // Закрытие меню при нажатии Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isMenuOpen) {
+            closeMenu();
+        }
+    });
+    
+    // Обработка изменения размера окна
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && isMenuOpen) {
+            closeMenu();
+        }
+    });
+    
+    // Обработка кнопки "Связь с нами" (отдельная логика)
     const contactBtn = document.getElementById('openFeedbackBtn');
     const modalBackdrop = document.getElementById('modalBackdrop');
     const modalCloseBtn = document.getElementById('modalCloseBtn');
-
-    // Открытие/закрытие мобильного меню
-    if (mobileMenuBtn && nav) {
-        mobileMenuBtn.addEventListener('click', function() {
-            const isOpen = nav.classList.contains('active');
+    
+    if (contactBtn && modalBackdrop) {
+        contactBtn.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                // Закрываем меню если оно открыто
+                if (isMenuOpen) {
+                    closeMenu();
+                }
+            }
             
-            // Закрываем все открытые выпадающие меню
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                menu.classList.remove('active');
-            });
-            
-            // Закрываем все активные кнопки выпадающих меню
-            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-                toggle.classList.remove('active');
-            });
-            
-            if (!isOpen) {
-                // Открываем меню
-                nav.classList.add('active');
-                mobileMenuBtn.classList.add('active');
-                document.body.classList.add('menu-open');
-            } else {
-                // Закрываем меню
-                nav.classList.remove('active');
-                mobileMenuBtn.classList.remove('active');
-                document.body.classList.remove('menu-open');
+            // Открываем модальное окно
+            modalBackdrop.style.display = 'flex';
+            setTimeout(() => {
+                modalBackdrop.classList.add('active');
+            }, 10);
+        });
+    }
+    
+    if (modalCloseBtn && modalBackdrop) {
+        modalCloseBtn.addEventListener('click', function() {
+            modalBackdrop.classList.remove('active');
+            setTimeout(() => {
+                modalBackdrop.style.display = 'none';
+            }, 300);
+        });
+    }
+    
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                setTimeout(() => {
+                    this.style.display = 'none';
+                }, 300);
             }
         });
+    }
+});        });
     }
 
     // Обработка выпадающих меню на мобильных
@@ -395,3 +525,4 @@ document.addEventListener('DOMContentLoaded', () => {
     window.navigation = new Navigation();
 
 });
+

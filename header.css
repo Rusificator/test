@@ -1,4 +1,5 @@
-/* Стили для шапки */
+
+
 .header {
     background: rgba(26, 26, 46, 0.95);
     backdrop-filter: blur(10px);
@@ -51,7 +52,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Навигация */
 .nav {
     display: flex;
 }
@@ -185,7 +185,6 @@
     text-align: center;
 }
 
-/* Кнопка "Связь с нами" */
 .contact-btn {
     background: linear-gradient(45deg, #0066ff, #00ccff);
     color: white;
@@ -204,7 +203,6 @@
     box-shadow: 0 8px 20px rgba(0, 102, 255, 0.4);
 }
 
-/* Кнопка мобильного меню */
 .mobile-menu-btn {
     display: none;
     flex-direction: column;
@@ -372,7 +370,7 @@
     cursor: not-allowed;
 }
 
-/* Адаптивность для мобильных устройств */
+/* Мобильная версия - ПЕРЕПИСАНА */
 @media (max-width: 992px) {
     .logo-text {
         font-size: 1.2rem;
@@ -392,81 +390,160 @@
         font-size: 1.1rem;
     }
     
+    /* Переписываем мобильное меню */
     .nav {
         position: fixed;
         top: 70px;
         left: 0;
-        width: 100%;
-        background: rgba(26, 26, 46, 0.98);
+        width: 100vw;
+        height: calc(100vh - 70px);
+        background: rgba(10, 12, 36, 0.98);
         backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 1.5rem;
-        transform: translateY(-100%);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
+        padding: 0;
+        transform: translateX(-100%);
+        opacity: 1;
+        visibility: visible;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 999;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     .nav.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
+        transform: translateX(0);
     }
     
     .nav-list {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .nav-list > li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
     
     .nav-link,
     .dropdown-toggle {
-        padding: 0.75rem 0;
-        width: 100%;
+        display: flex;
         justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 1.25rem 1.5rem;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        background: none;
+        text-align: left;
+        font-family: inherit;
     }
     
-    .dropdown-toggle::after {
-        content: '▼';
-        font-size: 0.7rem;
+    .nav-link.active {
+        background: linear-gradient(90deg, rgba(66, 220, 255, 0.1), transparent);
+        color: #42dcff;
+        font-weight: 600;
     }
     
+    .nav-link:hover,
+    .dropdown-toggle:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #42dcff;
+    }
+    
+    .dropdown-toggle {
+        cursor: pointer;
+    }
+    
+    .dropdown-arrow {
+        transition: transform 0.3s ease;
+        font-size: 0.8rem;
+    }
+    
+    .dropdown-toggle.active .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+    
+    /* Выпадающее меню для мобильных */
     .dropdown-menu {
         position: static;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.3);
         border: none;
+        border-radius: 0;
         box-shadow: none;
+        padding: 0;
         min-width: 100%;
+        opacity: 1;
+        visibility: visible;
         transform: none;
         max-height: 0;
         overflow: hidden;
-        opacity: 1;
-        visibility: visible;
-        transition: max-height 0.3s ease;
-        margin-top: 0;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
     }
     
-    .nav-item.dropdown:hover .dropdown-menu {
-        max-height: 300px;
+    .dropdown-menu.active {
+        max-height: 500px;
+    }
+    
+    .dropdown-menu li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .dropdown-menu li:last-child {
+        border-bottom: none;
     }
     
     .dropdown-link {
-        padding: 0.75rem 0.75rem 0.75rem 2rem;
+        padding: 1rem 1.5rem 1rem 3rem;
+        font-size: 1rem;
+        background: rgba(0, 0, 0, 0.2);
+        border-left: 3px solid transparent;
     }
     
     .dropdown-link:hover {
-        padding-left: 2.5rem;
+        background: linear-gradient(90deg, rgba(66, 220, 255, 0.15), transparent);
+        border-left-color: #42dcff;
+        padding-left: 3.5rem;
+        color: #42dcff;
+    }
+    
+    .dropdown-icon {
+        font-size: 1.1rem;
+        width: 24px;
+    }
+    
+    .contact-btn {
+        margin: 1.5rem;
+        width: calc(100% - 3rem);
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        background: linear-gradient(45deg, #0066ff, #00ccff);
+        box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
     }
     
     .mobile-menu-btn {
         display: flex;
     }
     
-    .contact-btn {
-        margin-top: 1rem;
-        width: 100%;
+    /* Убираем эффекты наведения для мобильных */
+    .nav-link::after,
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        display: none;
+    }
+    
+    /* Запрещаем скролл страницы при открытом меню */
+    body.menu-open {
+        overflow: hidden;
     }
 }
 
@@ -481,5 +558,33 @@
     
     .modal {
         padding: 1.5rem;
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+    
+    .nav {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+    
+    .nav-link,
+    .dropdown-toggle {
+        padding: 1.1rem 1.25rem;
+        font-size: 1.05rem;
+    }
+    
+    .dropdown-link {
+        padding: 0.9rem 1.25rem 0.9rem 2.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .dropdown-link:hover {
+        padding-left: 3.25rem;
+    }
+    
+    .contact-btn {
+        margin: 1.25rem;
+        width: calc(100% - 2.5rem);
+        padding: 0.9rem;
     }
 }
